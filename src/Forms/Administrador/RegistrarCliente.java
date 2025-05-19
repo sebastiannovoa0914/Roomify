@@ -158,7 +158,6 @@ public class RegistrarCliente extends javax.swing.JFrame {
             if (registrado) {
                 JOptionPane.showMessageDialog(this, "Registro exitoso. Ya puede iniciar sesión.");
                 this.dispose();          // Cierra el formulario registro
-                new LoginForm().setVisible(true);  // Abre formulario login
             } else {
                 JOptionPane.showMessageDialog(this, "Error al registrar. Intente de nuevo.");
             }

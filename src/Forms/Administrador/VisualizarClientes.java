@@ -1,27 +1,108 @@
 package Forms.Administrador;
+
+import javax.swing.JOptionPane;
+import dao.DAOCliente;
+import javax.swing.table.DefaultTableModel;
+
 public class VisualizarClientes extends javax.swing.JFrame {
+
+    DAOCliente dao = new DAOCliente();
+
     public VisualizarClientes() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        DefaultTableModel tabla = new DefaultTableModel(dao.listarClientes(), new String[]{"CEDULA", "USUARIO"  ,"CONTRASEÑA", "CORREO"});
+        JTClientes.setModel(tabla);
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        JTAdministradores = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        JTClientes = new javax.swing.JTable();
+        btnEliminar = new javax.swing.JButton();
+
+        JTAdministradores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(JTAdministradores);
+
+        jButton1.setText("jButton1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        JTClientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(JTClientes);
+
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnEliminar)
+                .addGap(139, 139, 139))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(62, 62, 62)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+                .addGap(46, 46, 46)
+                .addComponent(btnEliminar)
+                .addGap(45, 45, 45))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int fila = JTClientes.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione un cliente para eliminar");
+        } else {
+            int cedula = Integer.parseInt(JTClientes.getValueAt(fila, 0).toString());
+            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea eliminar al cliente?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                dao.eliminarCliente(cedula);
+                DefaultTableModel tabla = new DefaultTableModel(dao.listarClientes(), new String[]{"CEDULA", "USUARIO"  ,"CONTRASEÑA", "CORREO"});
+                JTClientes.setModel(tabla);
+            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -56,5 +137,11 @@ public class VisualizarClientes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable JTAdministradores;
+    private javax.swing.JTable JTClientes;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

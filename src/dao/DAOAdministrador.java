@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import modelo.Administrador;
@@ -61,29 +57,30 @@ public class DAOAdministrador {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error: "+e.getMessage());
         }
         return null;
     }
 
-    public List<Administrador> listarAdministradores() {
-        List<Administrador> admins = new ArrayList<>();
+    public Object[][] listarAdministradores() {
+        List<Object[]> admins = new ArrayList<>();
         String sql = "SELECT * FROM administrador";
 
         try (Connection conn = ConexionDB.obtenerConexion(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Administrador admin = new Administrador();
-                admin.setId(rs.getInt("id"));
-                admin.setUsuario(rs.getString("usuario"));
-                admin.setContraseña(rs.getString("contrasena"));
-                admins.add(admin);
+                Object[] datos = new Object[3];
+                datos[0] = rs.getInt("id");
+                datos[1] = rs.getString("contrasena");
+                datos[2] = rs.getString("contrasena");
+                admins.add(datos);
             }
+            return admins.toArray(new Object[admins.size()][2]);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error: "+e.getMessage());
         }
-        return admins;
+        return new Object[0][0];
     }
 
     public boolean actualizarAdministrador(Administrador admin) {

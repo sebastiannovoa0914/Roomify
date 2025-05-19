@@ -92,12 +92,12 @@ public class DAOCliente {
         }
     }
 
-    public boolean eliminarCliente(int id) {
-        String sql = "DELETE FROM cliente WHERE id = ?";
+    public boolean eliminarCliente(int cedula) {
+        String sql = "DELETE FROM cliente WHERE cedula = ?";
 
         try (Connection conn = ConexionDB.obtenerConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
+            stmt.setInt(1, cedula);
 
             return stmt.executeUpdate() > 0;
 
@@ -107,26 +107,26 @@ public class DAOCliente {
         }
     }
 
-    public List<Cliente> listarClientes() {
-        List<Cliente> clientes = new ArrayList<>();
+    public Object[][] listarClientes() {
+        List<Object[]> clientes = new ArrayList<>();
         String sql = "SELECT * FROM cliente";
 
         try (Connection conn = ConexionDB.obtenerConexion(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Cliente cliente = new Cliente();
-                cliente.setId(rs.getInt("id"));
-                cliente.setUsuario(rs.getString("usuario"));
-                cliente.setCedula(rs.getString("cedula"));
-                cliente.setCorreo(rs.getString("correo"));
-                cliente.setContraseña(rs.getString("contrasena"));
-                clientes.add(cliente);
+                Object[] datos = new Object[4];
+                datos[0] = rs.getInt("cedula");
+                datos[1] = rs.getString("usuario");
+                datos[2] = rs.getString("contrasena");
+                datos[3] = rs.getString("correo");
+                clientes.add(datos);
             }
+            return clientes.toArray(new Object[clientes.size()][4]);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error: "+e.getMessage());
         }
-        return clientes;
+        return new Object[0][0];
     }
 
     public boolean existeUsuarioOCedula(String usuario, String cedula) {
