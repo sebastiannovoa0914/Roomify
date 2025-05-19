@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelo;
 
 /**
@@ -9,12 +5,14 @@ package modelo;
  * @author Mauricio
  */
 public class Empleado extends Usuario {
+
     public Empleado(int id, String usuario, String contraseña) {
         super(id, usuario, contraseña);
     }
-public Empleado(){
 
-}
+    public Empleado() {
+
+    }
 
     public int getId() {
         return id;
@@ -45,4 +43,3 @@ public Empleado(){
         System.out.println("Menú del empleado: marcar mantenimiento, ver ocupadas...");
     }
 }
-

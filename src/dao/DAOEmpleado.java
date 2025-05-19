@@ -13,7 +13,38 @@ import modelo.Empleado;
 import modelo.Habitacion;
 
 public class DAOEmpleado {
-    // Método para obtener un empleado por su usuario (login)
+    
+    public boolean registrarEmpleado(Empleado empleado){
+        String sql = "INSERT INTO empleado (usuario, contrasena) VALUES (?, ?)";
+        Connection con = null;
+        try {
+            con = ConexionDB.obtenerConexion();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, empleado.getUsuario());
+            stmt.setString(2,empleado.getContraseña());
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Error: "+e.getMessage());
+            return false;
+        }
+    }
+    public boolean verificarExistencia(String usuario){
+        String sql = "SELECT contrasena FROM empleado WHERE usuario = ?";
+        Connection con = null;
+        try {
+            con = ConexionDB.obtenerConexion();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, usuario);
+            ResultSet rta = stmt.executeQuery();
+            if(rta.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: "+e.getMessage());
+        }
+        return false;
+    }
+    
     public Empleado obtenerEmpleadoPorUsuario(String usuario) {
         String sql = "SELECT * FROM empleado WHERE usuario = ?";
         Empleado emp = null;
