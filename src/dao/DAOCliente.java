@@ -51,7 +51,7 @@ public class DAOCliente {
     }
 
     public boolean actualizarCliente(Cliente cliente) {
-        String sql = "UPDATE cliente SET usuario = ?, correo = ?, contrasena = ? WHERE id = cedula = ?";
+        String sql = "UPDATE cliente SET usuario = ?, correo = ?, contrasena = ? WHERE cedula = ?";
 
         try (Connection conn = ConexionDB.obtenerConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 

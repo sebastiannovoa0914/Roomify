@@ -6,7 +6,6 @@ import javax.swing.JOptionPane;
 import modelo.Cliente;
 
 public class EditarCliente extends javax.swing.JFrame {
-    int id;
 
     public EditarCliente(Cliente cliente) {
         initComponents();
@@ -15,7 +14,6 @@ public class EditarCliente extends javax.swing.JFrame {
         txtCorreo.setText(cliente.getCorreo());
         txtContraseña.setText(cliente.getContraseña());
         txtCedula.setText(cliente.getCedula());
-        id = cliente.getId();
     }
 
     public EditarCliente() {
@@ -138,28 +136,24 @@ public class EditarCliente extends javax.swing.JFrame {
         // Crear DAO y verificar si el usuario existe por cédula
         DAOCliente dao = new DAOCliente();
 
-        if (dao.existeUsuarioOCedula(usuario, cedula)) {
-            JOptionPane.showMessageDialog(this, "El usuario o la cédula ya están registrados.");
+        // Crear objeto Cliente
+        Cliente cliente = new Cliente();
+        cliente.setUsuario(usuario);
+        cliente.setCedula(cedula);
+        cliente.setCorreo(correo);
+        cliente.setContraseña(contrasena);
+
+        // Intentar registrar
+        boolean registrado = dao.actualizarCliente(cliente);
+
+        if (registrado) {
+            JOptionPane.showMessageDialog(this, "Actualizacion exitosa.");
+            this.dispose();          // Cierra el formulario registro
+            new VisualizarClientes().setVisible(true);
         } else {
-            // Crear objeto Cliente
-            Cliente cliente = new Cliente();
-            cliente.setUsuario(usuario);
-            cliente.setCedula(cedula);
-            cliente.setCorreo(correo);
-            cliente.setContraseña(contrasena);
-            cliente.setId(id);
-
-            // Intentar registrar
-            boolean registrado = dao.actualizarCliente(cliente);
-
-            if (registrado) {
-                JOptionPane.showMessageDialog(this, "Actualizacion exitosa.");
-                this.dispose();          // Cierra el formulario registro
-                new VisualizarClientes().setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al actualizar. Intente de nuevo.");
-            }
+            JOptionPane.showMessageDialog(this, "Error al actualizar. Intente de nuevo.");
         }
+
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**

@@ -10,7 +10,7 @@ public class VisualizarAdministradores extends javax.swing.JFrame {
     public VisualizarAdministradores() {
         initComponents();
         this.setLocationRelativeTo(null);
-        DefaultTableModel tabla = new DefaultTableModel(dao.listarAdministradores(), new String[]{"ID","USUARIO", "CONTRASEÑA"});
+            DefaultTableModel tabla = new DefaultTableModel(dao.listarAdministradores(), new String[]{"ID","USUARIO", "CONTRASEÑA"});
         JTAdministradores.setModel(tabla);
     }   
     

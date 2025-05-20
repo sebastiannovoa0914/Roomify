@@ -77,7 +77,7 @@ public class DAOAdministrador {
                 datos[2] = rs.getString("contrasena");
                 admins.add(datos);
             }
-            return admins.toArray(new Object[admins.size()][2]);
+            return admins.toArray(new Object[admins.size()][3]);
 
         } catch (SQLException e) {
             System.out.println("Error: "+e.getMessage());

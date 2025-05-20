@@ -1,4 +1,3 @@
-
 package dao;
 
 import java.sql.Connection;
@@ -13,22 +12,83 @@ import modelo.Empleado;
 import modelo.Habitacion;
 
 public class DAOEmpleado {
-    
-    public boolean registrarEmpleado(Empleado empleado){
+
+    public boolean registrarEmpleado(Empleado empleado) {
         String sql = "INSERT INTO empleado (usuario, contrasena) VALUES (?, ?)";
         Connection con = null;
         try {
             con = ConexionDB.obtenerConexion();
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, empleado.getUsuario());
-            stmt.setString(2,empleado.getContraseña());
+            stmt.setString(2, empleado.getContraseña());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("Error: "+e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             return false;
         }
     }
-    public boolean verificarExistencia(String usuario){
+
+    public boolean actualizarEmpleado(Empleado empleado) {
+        String sql = "UPDATE empleado SET usuario = ?, contrasena = ? WHERE id = ?";
+
+        try (Connection conn = ConexionDB.obtenerConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, empleado.getUsuario());
+            stmt.setString(2, empleado.getContraseña());
+            stmt.setInt(3, empleado.getId());
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Object[][] listarEmpleados() {
+        List<Object[]> empleados = new ArrayList<>();
+        String sql = "SELECT * FROM empleado";
+
+        try (Connection conn = ConexionDB.obtenerConexion(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Object[] datos = new Object[3];
+                datos[0] = rs.getInt("id");
+                datos[1] = rs.getString("usuario");
+                datos[2] = rs.getString("contrasena");
+                empleados.add(datos);
+            }
+            return empleados.toArray(new Object[empleados.size()][3]);
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return new Object[0][0];
+    }
+
+    public Empleado obtenerEmpleadoPorId(int id) {
+        String sql = "SELECT * FROM empleado WHERE id = ?";
+
+        try (Connection conn = ConexionDB.obtenerConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Empleado empleado = new Empleado();
+                empleado.setId(rs.getInt("id"));
+                empleado.setUsuario(rs.getString("usuario"));
+                empleado.setContraseña(rs.getString("contrasena"));
+                return empleado;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public boolean verificarExistencia(String usuario) {
         String sql = "SELECT contrasena FROM empleado WHERE usuario = ?";
         Connection con = null;
         try {
@@ -36,21 +96,20 @@ public class DAOEmpleado {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, usuario);
             ResultSet rta = stmt.executeQuery();
-            if(rta.next()){
+            if (rta.next()) {
                 return true;
             }
         } catch (SQLException e) {
-            System.out.println("Error: "+e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
         return false;
     }
-    
+
     public Empleado obtenerEmpleadoPorUsuario(String usuario) {
         String sql = "SELECT * FROM empleado WHERE usuario = ?";
         Empleado emp = null;
 
-        try (Connection conn = ConexionDB.obtenerConexion();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConexionDB.obtenerConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, usuario);
             ResultSet rs = stmt.executeQuery();
@@ -83,14 +142,13 @@ public class DAOEmpleado {
     // Método para listar habitaciones ocupadas con info del cliente que reservó
     public List<Map<String, Object>> listarHabitacionesOcupadas() {
         List<Map<String, Object>> lista = new ArrayList<>();
-        String sql = "SELECT h.id AS idHabitacion, h.tipo, r.idCliente, c.usuario AS usuarioCliente, h.precio, r.estado " +
-                     "FROM habitacion h " +
-                     "JOIN reserva r ON h.id = r.idHabitacion " +
-                     "JOIN cliente c ON r.idCliente = c.id " +
-                     "WHERE h.estado = 'Ocupada' AND r.estado = 'Activa'";
+        String sql = "SELECT h.id AS idHabitacion, h.tipo, r.idCliente, c.usuario AS usuarioCliente, h.precio, r.estado "
+                + "FROM habitacion h "
+                + "JOIN reserva r ON h.id = r.idHabitacion "
+                + "JOIN cliente c ON r.idCliente = c.id "
+                + "WHERE h.estado = 'Ocupada' AND r.estado = 'Activa'";
 
-        try (Connection conn = ConexionDB.obtenerConexion();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConexionDB.obtenerConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             ResultSet rs = stmt.executeQuery();
 
