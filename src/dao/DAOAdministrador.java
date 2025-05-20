@@ -66,12 +66,14 @@ public class DAOAdministrador {
         List<Object[]> admins = new ArrayList<>();
         String sql = "SELECT * FROM administrador";
 
-        try (Connection conn = ConexionDB.obtenerConexion(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = ConexionDB.obtenerConexion(); 
+                PreparedStatement stmt = conn.prepareStatement(sql); 
+                ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Object[] datos = new Object[3];
                 datos[0] = rs.getInt("id");
-                datos[1] = rs.getString("contrasena");
+                datos[1] = rs.getString("usuario");
                 datos[2] = rs.getString("contrasena");
                 admins.add(datos);
             }
@@ -84,7 +86,7 @@ public class DAOAdministrador {
     }
 
     public boolean actualizarAdministrador(Administrador admin) {
-        String sql = "UPDATE administrador SET usuario = ?, contraseña = ? WHERE id = ?";
+        String sql = "UPDATE administrador SET usuario = ?, contrasena = ? WHERE id = ?";
 
         try (Connection conn = ConexionDB.obtenerConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 

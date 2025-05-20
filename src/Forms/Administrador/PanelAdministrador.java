@@ -33,7 +33,10 @@ public class PanelAdministrador extends javax.swing.JFrame {
         subCliente = new javax.swing.JMenuItem();
         subEmpleado = new javax.swing.JMenuItem();
         subAdministrador = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        JMVisualizar = new javax.swing.JMenu();
+        subClientes = new javax.swing.JMenuItem();
+        subEmpleados = new javax.swing.JMenuItem();
+        subAdministradores = new javax.swing.JMenuItem();
         JMCerrarSesión = new javax.swing.JMenu();
         subCerrarSesión = new javax.swing.JMenuItem();
 
@@ -70,8 +73,28 @@ public class PanelAdministrador extends javax.swing.JFrame {
 
         jMenuBar1.add(JMRegistrar);
 
-        jMenu2.setText("Visualizar");
-        jMenuBar1.add(jMenu2);
+        JMVisualizar.setText("Visualizar");
+
+        subClientes.setText("Clientes");
+        subClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subClientesActionPerformed(evt);
+            }
+        });
+        JMVisualizar.add(subClientes);
+
+        subEmpleados.setText("Empleados");
+        JMVisualizar.add(subEmpleados);
+
+        subAdministradores.setText("Administradores");
+        subAdministradores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subAdministradoresActionPerformed(evt);
+            }
+        });
+        JMVisualizar.add(subAdministradores);
+
+        jMenuBar1.add(JMVisualizar);
 
         JMCerrarSesión.setText("Cerrar Sesión");
 
@@ -124,6 +147,14 @@ public class PanelAdministrador extends javax.swing.JFrame {
         new RegistrarEmpleado().setVisible(true);
     }//GEN-LAST:event_subEmpleadoActionPerformed
 
+    private void subClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subClientesActionPerformed
+        new VisualizarClientes().setVisible(true);
+    }//GEN-LAST:event_subClientesActionPerformed
+
+    private void subAdministradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAdministradoresActionPerformed
+        new VisualizarAdministradores().setVisible(true);
+    }//GEN-LAST:event_subAdministradoresActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -162,12 +193,15 @@ public class PanelAdministrador extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu JMCerrarSesión;
     private javax.swing.JMenu JMRegistrar;
+    private javax.swing.JMenu JMVisualizar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem subAdministrador;
+    private javax.swing.JMenuItem subAdministradores;
     private javax.swing.JMenuItem subCerrarSesión;
     private javax.swing.JMenuItem subCliente;
+    private javax.swing.JMenuItem subClientes;
     private javax.swing.JMenuItem subEmpleado;
+    private javax.swing.JMenuItem subEmpleados;
     // End of variables declaration//GEN-END:variables
 }
