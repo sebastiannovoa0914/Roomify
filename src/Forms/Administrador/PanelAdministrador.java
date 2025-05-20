@@ -27,6 +27,7 @@ public class PanelAdministrador extends javax.swing.JFrame {
         subCliente = new javax.swing.JMenuItem();
         subEmpleado = new javax.swing.JMenuItem();
         subAdministrador = new javax.swing.JMenuItem();
+        subHabitacion = new javax.swing.JMenuItem();
         JMVisualizar = new javax.swing.JMenu();
         subClientes = new javax.swing.JMenuItem();
         subEmpleados = new javax.swing.JMenuItem();
@@ -64,6 +65,14 @@ public class PanelAdministrador extends javax.swing.JFrame {
             }
         });
         JMRegistrar.add(subAdministrador);
+
+        subHabitacion.setText("Habitación");
+        subHabitacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subHabitacionActionPerformed(evt);
+            }
+        });
+        JMRegistrar.add(subHabitacion);
 
         jMenuBar1.add(JMRegistrar);
 
@@ -158,6 +167,10 @@ public class PanelAdministrador extends javax.swing.JFrame {
         new VisualizarEmpleados().setVisible(true);
     }//GEN-LAST:event_subEmpleadosActionPerformed
 
+    private void subHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subHabitacionActionPerformed
+        new RegistrarHabitacion().setVisible(true);
+    }//GEN-LAST:event_subHabitacionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -206,5 +219,6 @@ public class PanelAdministrador extends javax.swing.JFrame {
     private javax.swing.JMenuItem subClientes;
     private javax.swing.JMenuItem subEmpleado;
     private javax.swing.JMenuItem subEmpleados;
+    private javax.swing.JMenuItem subHabitacion;
     // End of variables declaration//GEN-END:variables
 }

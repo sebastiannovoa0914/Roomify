@@ -36,7 +36,6 @@ public class DAOCliente {
 
             if (rs.next()) {
                 Cliente cliente = new Cliente();
-                cliente.setId(rs.getInt("id"));
                 cliente.setUsuario(rs.getString("usuario"));
                 cliente.setCedula(rs.getString("cedula"));
                 cliente.setCorreo(rs.getString("correo"));
