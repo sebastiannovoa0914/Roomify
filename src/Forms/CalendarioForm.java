@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Forms;
 
 import dao.DAOReserva;
@@ -55,21 +51,22 @@ public class CalendarioForm extends JFrame {
         initComponentes();
         refrescarCalendario();
     }
+
     public CalendarioForm(int idHabitacion, boolean esEmpleado) {
-    this.idHabitacion = idHabitacion;
-    this.daoReserva = new DAOReserva();
-    this.daoHabitacion = new DAOHabitacion();
-    this.mesActual = YearMonth.now();
-    this.esEmpleado = esEmpleado;
+        this.idHabitacion = idHabitacion;
+        this.daoReserva = new DAOReserva();
+        this.daoHabitacion = new DAOHabitacion();
+        this.mesActual = YearMonth.now();
+        this.esEmpleado = esEmpleado;
 
-    setTitle("Calendario de habitación ID: " + idHabitacion);
-    setSize(400, 450);
-    setLocationRelativeTo(null);
-    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setTitle("Calendario de habitación ID: " + idHabitacion);
+        setSize(400, 450);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-    initComponentes();
-    refrescarCalendario();
-}
+        initComponentes();
+        refrescarCalendario();
+    }
 
     private void initComponentes() {
         this.setLayout(new BorderLayout());
@@ -103,14 +100,17 @@ public class CalendarioForm extends JFrame {
         labelTotalPagar = new JLabel("Total a pagar: $0.00");
 
         JButton btnReservar = new JButton("Confirmar Reserva");
-        btnReservar.addActionListener(e -> confirmarReserva());
-        
-           // Aquí justo después de crear los componentes, ocultamos si es empleado:
-    if (esEmpleado) {
-        btnReservar.setVisible(false);
-        labelTotalDias.setVisible(false);
-        labelTotalPagar.setVisible(false);
-    }
+        btnReservar.addActionListener(e -> {
+            confirmarReserva();
+            new Pago().setVisible(true);
+        });
+
+        // Aquí justo después de crear los componentes, ocultamos si es empleado:
+        if (esEmpleado) {
+            btnReservar.setVisible(false);
+            labelTotalDias.setVisible(false);
+            labelTotalPagar.setVisible(false);
+        }
 
         panelInferior.add(labelTotalDias);
         panelInferior.add(labelTotalPagar);
@@ -118,85 +118,83 @@ public class CalendarioForm extends JFrame {
 
         this.add(panelInferior, BorderLayout.SOUTH);
         if (esEmpleado) {
-    JButton btnMantenimiento = new JButton("Opciones de Mantenimiento");
-    btnMantenimiento.addActionListener(e -> mostrarOpcionesMantenimiento());
-    panelInferior.add(btnMantenimiento);
-}
+            JButton btnMantenimiento = new JButton("Opciones de Mantenimiento");
+            btnMantenimiento.addActionListener(e -> mostrarOpcionesMantenimiento());
+            panelInferior.add(btnMantenimiento);
+        }
     }
-    
 
     private void refrescarCalendario() {
         panelDias.removeAll();
 
-    labelMesAnio.setText(
-        mesActual.getMonth().getDisplayName(TextStyle.FULL, new Locale("es", "ES")) + " " + mesActual.getYear()
-    );
+        labelMesAnio.setText(
+                mesActual.getMonth().getDisplayName(TextStyle.FULL, new Locale("es", "ES")) + " " + mesActual.getYear()
+        );
 
-    String[] diasSemana = {"Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"};
-    for (String dia : diasSemana) {
-        JLabel lbl = new JLabel(dia, SwingConstants.CENTER);
-        lbl.setFont(lbl.getFont().deriveFont(Font.BOLD));
-        panelDias.add(lbl);
-    }
-
-    // Obtener fechas ocupadas (reservas) y fechas en mantenimiento
-    Set<LocalDate> fechasOcupadas = daoReserva.obtenerFechasOcupadas(idHabitacion, mesActual.getYear(), mesActual.getMonthValue());
-    List<LocalDate> diasMantenimiento = daoReserva.obtenerDiasMantenimientos(idHabitacion);
-
-    LocalDate primerDiaMes = mesActual.atDay(1);
-    int diaSemanaInicio = primerDiaMes.getDayOfWeek().getValue();
-
-    // Agrega espacios vacíos antes del primer día del mes
-    for (int i = 0; i < diaSemanaInicio - 1; i++) {
-        panelDias.add(new JLabel(""));
-    }
-
-    int diasEnMes = mesActual.lengthOfMonth();
-    for (int dia = 1; dia <= diasEnMes; dia++) {
-        LocalDate fecha = mesActual.atDay(dia);
-        JButton btnDia = new JButton(String.valueOf(dia));
-        btnDia.setMargin(new Insets(2, 2, 2, 2));
-
-        if (fecha.isBefore(LocalDate.now())) {
-            btnDia.setEnabled(false);
-            btnDia.setBackground(Color.LIGHT_GRAY);
-        } else if (diasMantenimiento.contains(fecha)) {
-            btnDia.setBackground(Color.YELLOW);
-            btnDia.setEnabled(false); // opcional: no permitir selección si está en mantenimiento
-        } else if (fechasOcupadas.contains(fecha)) {
-            btnDia.setBackground(Color.RED);
-            btnDia.setForeground(Color.WHITE);
-            btnDia.setEnabled(true);
-            btnDia.addActionListener(e -> {
-                JOptionPane.showMessageDialog(this, "La habitación ya fue reservada en esta fecha", "Fecha ocupada", JOptionPane.INFORMATION_MESSAGE);
-            });
-        } else {
-            if (diasSeleccionados.contains(fecha)) {
-                btnDia.setBackground(Color.GREEN);
-            } else {
-                btnDia.setBackground(null);
-            }
-
-            btnDia.addActionListener(e -> {
-                if (diasSeleccionados.contains(fecha)) {
-                    diasSeleccionados.remove(fecha);
-                    btnDia.setBackground(null);
-                } else {
-                    diasSeleccionados.add(fecha);
-                    btnDia.setBackground(Color.GREEN);
-                }
-                actualizarTotales();
-            });
+        String[] diasSemana = {"Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"};
+        for (String dia : diasSemana) {
+            JLabel lbl = new JLabel(dia, SwingConstants.CENTER);
+            lbl.setFont(lbl.getFont().deriveFont(Font.BOLD));
+            panelDias.add(lbl);
         }
 
-        panelDias.add(btnDia);
-    }
+        // Obtener fechas ocupadas (reservas) y fechas en mantenimiento
+        Set<LocalDate> fechasOcupadas = daoReserva.obtenerFechasOcupadas(idHabitacion, mesActual.getYear(), mesActual.getMonthValue());
+        List<LocalDate> diasMantenimiento = daoReserva.obtenerDiasMantenimientos(idHabitacion);
 
-    panelDias.revalidate();
-    panelDias.repaint();
-    actualizarTotales();
+        LocalDate primerDiaMes = mesActual.atDay(1);
+        int diaSemanaInicio = primerDiaMes.getDayOfWeek().getValue();
+
+        // Agrega espacios vacíos antes del primer día del mes
+        for (int i = 0; i < diaSemanaInicio - 1; i++) {
+            panelDias.add(new JLabel(""));
+        }
+
+        int diasEnMes = mesActual.lengthOfMonth();
+        for (int dia = 1; dia <= diasEnMes; dia++) {
+            LocalDate fecha = mesActual.atDay(dia);
+            JButton btnDia = new JButton(String.valueOf(dia));
+            btnDia.setMargin(new Insets(2, 2, 2, 2));
+
+            if (fecha.isBefore(LocalDate.now())) {
+                btnDia.setEnabled(false);
+                btnDia.setBackground(Color.LIGHT_GRAY);
+            } else if (diasMantenimiento.contains(fecha)) {
+                btnDia.setBackground(Color.YELLOW);
+                btnDia.setEnabled(false); // opcional: no permitir selección si está en mantenimiento
+            } else if (fechasOcupadas.contains(fecha)) {
+                btnDia.setBackground(Color.RED);
+                btnDia.setForeground(Color.WHITE);
+                btnDia.setEnabled(true);
+                btnDia.addActionListener(e -> {
+                    JOptionPane.showMessageDialog(this, "La habitación ya fue reservada en esta fecha", "Fecha ocupada", JOptionPane.INFORMATION_MESSAGE);
+                });
+            } else {
+                if (diasSeleccionados.contains(fecha)) {
+                    btnDia.setBackground(Color.GREEN);
+                } else {
+                    btnDia.setBackground(null);
+                }
+
+                btnDia.addActionListener(e -> {
+                    if (diasSeleccionados.contains(fecha)) {
+                        diasSeleccionados.remove(fecha);
+                        btnDia.setBackground(null);
+                    } else {
+                        diasSeleccionados.add(fecha);
+                        btnDia.setBackground(Color.GREEN);
+                    }
+                    actualizarTotales();
+                });
+            }
+
+            panelDias.add(btnDia);
+        }
+
+        panelDias.revalidate();
+        panelDias.repaint();
+        actualizarTotales();
     }
-    
 
     private void actualizarTotales() {
         int totalDias = diasSeleccionados.size();
@@ -248,17 +246,18 @@ public class CalendarioForm extends JFrame {
     public CalendarioForm() {
         // Constructor vacío opcional
     }
-     private void mostrarOpcionesMantenimiento() {
+
+    private void mostrarOpcionesMantenimiento() {
         String[] opciones = {"Poner en Mantenimiento", "Marcar como Disponible", "Cancelar"};
         int eleccion = JOptionPane.showOptionDialog(
-            this,
-            "¿Qué acción desea realizar para esta habitación?",
-            "Opciones de Mantenimiento",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            opciones,
-            opciones[0]
+                this,
+                "¿Qué acción desea realizar para esta habitación?",
+                "Opciones de Mantenimiento",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]
         );
 
         String nuevoEstado = null;
@@ -280,14 +279,8 @@ public class CalendarioForm extends JFrame {
             }
         }
     }
-
-
-
-
     /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -312,7 +305,6 @@ public class CalendarioForm extends JFrame {
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
