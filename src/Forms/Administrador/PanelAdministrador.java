@@ -22,7 +22,8 @@ public class PanelAdministrador extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        JLTitulo = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         JMResgistrar = new javax.swing.JMenu();
         subCliente = new javax.swing.JMenuItem();
@@ -36,10 +37,16 @@ public class PanelAdministrador extends javax.swing.JFrame {
         JMCerrarSesion = new javax.swing.JMenu();
         subCerrarSesión = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jLabel1.setText("jLabel1");
 
-        JLTitulo.setFont(new java.awt.Font("Serif", 1, 18)); // NOI18N
-        JLTitulo.setText("PANEL ADMINISTRADOR");
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\geral\\OneDrive\\Documentos\\NetBeansProjects.jar\\Roomify\\src\\Imagenes\\Roomify (800 x 600 px) (8).png")); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 560));
+
+        jMenuBar1.setMinimumSize(new java.awt.Dimension(245, 40));
+        jMenuBar1.setPreferredSize(new java.awt.Dimension(245, 40));
 
         JMResgistrar.setText("Registrar");
         JMResgistrar.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
@@ -122,23 +129,6 @@ public class PanelAdministrador extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(JLTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addComponent(JLTitulo)
-                .addContainerGap(174, Short.MAX_VALUE))
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -211,10 +201,11 @@ public class PanelAdministrador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel JLTitulo;
     private javax.swing.JMenu JMCerrarSesion;
     private javax.swing.JMenu JMResgistrar;
     private javax.swing.JMenu JMVisualizar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem subAdministrador;
     private javax.swing.JMenuItem subAdministradores;
