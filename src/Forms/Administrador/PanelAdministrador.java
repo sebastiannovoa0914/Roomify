@@ -98,6 +98,11 @@ public class PanelAdministrador extends javax.swing.JFrame {
         JMVisualizar.add(subEmpleados);
 
         subAdministradores.setText("Administradores");
+        subAdministradores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subAdministradoresActionPerformed(evt);
+            }
+        });
         JMVisualizar.add(subAdministradores);
 
         jMenuBar1.add(JMVisualizar);
@@ -165,6 +170,10 @@ public class PanelAdministrador extends javax.swing.JFrame {
     private void subEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subEmpleadosActionPerformed
         new VisualizarEmpleados().setVisible(true);
     }//GEN-LAST:event_subEmpleadosActionPerformed
+
+    private void subAdministradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAdministradoresActionPerformed
+        new VisualizarAdministradores().setVisible(true);
+    }//GEN-LAST:event_subAdministradoresActionPerformed
 
     /**
      * @param args the command line arguments
