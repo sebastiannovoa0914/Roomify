@@ -15,21 +15,21 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import modelo.Habitacion;
 
-
 public class PanelCliente extends javax.swing.JFrame {
 
-private Cliente cliente;
-private DefaultTableModel modelo;
+    private Cliente cliente;
+    private DefaultTableModel modelo;
 
-
-     public PanelCliente(Cliente cliente) {
+    public PanelCliente(Cliente cliente) {
         this.cliente = cliente;
+        this.setLocationRelativeTo(null);
         initComponents();
         configurarTabla();
         cargarHabitacionesDisponibles();
         agregarEventoClick();
     }
-   public PanelCliente() {
+
+    public PanelCliente() {
         initComponents();
     }
 
@@ -37,7 +37,7 @@ private DefaultTableModel modelo;
         String[] columnas = {"ID", "Tipo", "Precio", "Estado"};
         modelo = new DefaultTableModel(columnas, 0);
         tablaHabitaciones.setModel(modelo);
-    this.tablaHabitaciones = tablaHabitaciones;
+        this.tablaHabitaciones = tablaHabitaciones;
     }
 
     private void cargarHabitacionesDisponibles() {
@@ -67,24 +67,23 @@ private DefaultTableModel modelo;
             }
         });
     }
+
     private double obtenerPrecioPorDia(int idHabitacion) {
-    DAOHabitacion dao = new DAOHabitacion();
-    List<Habitacion> disponibles = dao.listarHabitacionesPorEstado("Disponible");
-    for (Habitacion h : disponibles) {
-        if (h.getId() == idHabitacion) {
-            return h.getPrecio();
+        DAOHabitacion dao = new DAOHabitacion();
+        List<Habitacion> disponibles = dao.listarHabitacionesPorEstado("Disponible");
+        for (Habitacion h : disponibles) {
+            if (h.getId() == idHabitacion) {
+                return h.getPrecio();
+            }
         }
+        return 0.0;
     }
-    return 0.0;
-}
 
-   private void abrirCalendario(int idHabitacion) {
-    double precioPorDia = obtenerPrecioPorDia(idHabitacion); // método para obtener el precio
-    CalendarioForm calendario = new CalendarioForm(idHabitacion, cliente, precioPorDia);
-    calendario.setVisible(true);
-}
-   
-
+    private void abrirCalendario(int idHabitacion) {
+        double precioPorDia = obtenerPrecioPorDia(idHabitacion); // método para obtener el precio
+        CalendarioForm calendario = new CalendarioForm(idHabitacion, cliente, precioPorDia);
+        calendario.setVisible(true);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -140,14 +139,13 @@ private DefaultTableModel modelo;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVerHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerHistorialActionPerformed
-         HistorialClienteForm historial = new HistorialClienteForm(cliente);
-    historial.setVisible(true);
+        HistorialClienteForm historial = new HistorialClienteForm(cliente);
+        historial.setVisible(true);
     }//GEN-LAST:event_btnVerHistorialActionPerformed
 
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnVerHistorial;

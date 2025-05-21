@@ -7,6 +7,7 @@ package Forms.Empleado;
 import Forms.CalendarioForm;
 import Forms.CalendarioForm;
 import Forms.CalendarioFormEmpleado;
+import Forms.FormPrincipal;
 import dao.DAOHabitacion;
 import dao.DAOReserva;
 import java.awt.BorderLayout;
@@ -19,14 +20,15 @@ import modelo.Habitacion;
 import modelo.Reserva;
 import java.awt.event.MouseAdapter;
 
-
 public class PanelEmpleado extends javax.swing.JFrame {
 
     private Empleado empleado;
     private JTable tablaReservadas;
     private JScrollPane scrollPane;
     private JMenuBar menuBar;
+    private JMenu menuOpciones2;
     private JMenu menuOpciones;
+    private JMenuItem itemCerrar;
     private JMenuItem itemVerHabitaciones;
     private JMenuItem itemVerReservadas;
 
@@ -34,7 +36,7 @@ public class PanelEmpleado extends javax.swing.JFrame {
         this.empleado = empleado;
         initComponentes();
         setLocationRelativeTo(null);
-        
+
     }
 
     private void initComponentes() {
@@ -46,12 +48,16 @@ public class PanelEmpleado extends javax.swing.JFrame {
         // Menú
         menuBar = new JMenuBar();
         menuOpciones = new JMenu("Opciones");
+        menuOpciones2 = new JMenu("Cerrar Sesión");
+        itemCerrar = new JMenuItem("Cerrar Sesión");
         itemVerHabitaciones = new JMenuItem("Ver Habitaciones");
         itemVerReservadas = new JMenuItem("Ver Habitaciones Reservadas");
 
         menuOpciones.add(itemVerHabitaciones);
         menuOpciones.add(itemVerReservadas);
+        menuOpciones2.add(itemCerrar);
         menuBar.add(menuOpciones);
+        menuBar.add(menuOpciones2);
         setJMenuBar(menuBar);
 
         // Tabla vacía por defecto
@@ -60,11 +66,13 @@ public class PanelEmpleado extends javax.swing.JFrame {
         add(scrollPane, BorderLayout.CENTER);
 
         // Acciones
-
         itemVerReservadas.addActionListener(e -> mostrarHabitacionesReservadas());
         itemVerHabitaciones.addActionListener(e -> mostrarHabitaciones());
+        itemCerrar.addActionListener(e -> {
+            new FormPrincipal().setVisible(true);
+            this.dispose();
+        });
     }
-    
 
     private void mostrarHabitacionesReservadas() {
         DAOReserva daoReserva = new DAOReserva();
@@ -87,43 +95,42 @@ public class PanelEmpleado extends javax.swing.JFrame {
 
         tablaReservadas.setModel(modelo);
     }
+
     private void mostrarHabitaciones() {
-    DAOHabitacion daoHabitacion = new DAOHabitacion();
-    List<Habitacion> habitaciones = daoHabitacion.listarHabitaciones();
+        DAOHabitacion daoHabitacion = new DAOHabitacion();
+        List<Habitacion> habitaciones = daoHabitacion.listarHabitaciones();
 
-    String[] columnas = {"ID", "Tipo", "Precio", "Estado"};
-    DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+        String[] columnas = {"ID", "Tipo", "Precio", "Estado"};
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 
-    for (Habitacion h : habitaciones) {
-        Object[] fila = {
-            h.getId(),
-            h.getTipo(),
-            h.getPrecio(),
-            h.getEstado()
-        };
-        modelo.addRow(fila);
-    }
+        for (Habitacion h : habitaciones) {
+            Object[] fila = {
+                h.getId(),
+                h.getTipo(),
+                h.getPrecio(),
+                h.getEstado()
+            };
+            modelo.addRow(fila);
+        }
 
-    tablaReservadas.setModel(modelo);
+        tablaReservadas.setModel(modelo);
 
-    // Agregar listener de clic para abrir el calendario
-    tablaReservadas.addMouseListener(new MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            if (evt.getClickCount() == 2) { // doble clic
-                int fila = tablaReservadas.getSelectedRow();
-                if (fila != -1) {
-                    int idHabitacion = (int) tablaReservadas.getValueAt(fila, 0);
+        // Agregar listener de clic para abrir el calendario
+        tablaReservadas.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) { // doble clic
+                    int fila = tablaReservadas.getSelectedRow();
+                    if (fila != -1) {
+                        int idHabitacion = (int) tablaReservadas.getValueAt(fila, 0);
 
-                    // Mostrar el CalendarioForm en modo empleado
-                    CalendarioForm calendario = new CalendarioForm(idHabitacion, true);
-                    calendario.setVisible(true);
+                        // Mostrar el CalendarioForm en modo empleado
+                        CalendarioForm calendario = new CalendarioForm(idHabitacion, true);
+                        calendario.setVisible(true);
+                    }
                 }
             }
-        }
-    });
-}
-
-
+        });
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -149,8 +156,6 @@ public class PanelEmpleado extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tablaHabitaciones);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 770, 260));
-
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\geral\\OneDrive\\Documentos\\NetBeansProjects.jar\\Roomify\\src\\Imagenes\\Roomify (800 x 600 px) (15).png")); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         pack();
@@ -159,7 +164,6 @@ public class PanelEmpleado extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
- 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
