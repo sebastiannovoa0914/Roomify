@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Forms;
+package Forms.Empleado;
 
+import Forms.CalendarioForm;
 import Forms.CalendarioForm;
 import Forms.CalendarioFormEmpleado;
 import dao.DAOHabitacion;
