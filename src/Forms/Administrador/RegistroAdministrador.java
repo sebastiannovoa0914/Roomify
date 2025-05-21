@@ -24,7 +24,9 @@ public class RegistroAdministrador extends javax.swing.JFrame {
         getContentPane().add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 280, 260, -1));
         getContentPane().add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(279, 320, 260, -1));
 
-        btnRegistrar.setText("REGISTRAR");
+        btnRegistrar.setBorder(null);
+        btnRegistrar.setContentAreaFilled(false);
+        btnRegistrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarActionPerformed(evt);
@@ -32,7 +34,7 @@ public class RegistroAdministrador extends javax.swing.JFrame {
         });
         getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 390, 140, 30));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\geral\\OneDrive\\Documentos\\NetBeansProjects.jar\\Roomify\\src\\Imagenes\\Roomify (800 x 600 px) (9).png")); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Roomify (800 x 600 px) (9).png"))); // NOI18N
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         pack();

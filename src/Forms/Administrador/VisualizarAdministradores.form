@@ -89,7 +89,7 @@
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\geral\OneDrive\Documentos\NetBeansProjects.jar\Roomify\src\Imagenes\Roomify (800 x 600 px) (12).png"/>
+          <Image iconType="3" name="/Imagenes/Roomify (800 x 600 px) (12).png"/>
         </Property>
       </Properties>
       <Constraints>
