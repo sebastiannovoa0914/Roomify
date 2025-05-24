@@ -88,7 +88,7 @@ public class HistorialClienteForm extends JFrame {
     private void cargarHistorial() {
     modeloTabla.setRowCount(0); // limpia la tabla
 
-    List<Reserva> reservas = daoReserva.listarReservasPorCliente(cliente.getId());
+    List<Reserva> reservas = daoReserva.listarReservasPorCliente(Integer.parseInt(cliente.getCedula()));
     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     for (Reserva r : reservas) {
@@ -105,6 +105,9 @@ public class HistorialClienteForm extends JFrame {
         });
     }
 }
+    public static void main(String[] args) {
+        
+    }
 
 
     /**
